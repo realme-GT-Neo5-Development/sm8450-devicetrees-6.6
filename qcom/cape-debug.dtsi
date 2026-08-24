@@ -1,0 +1,9 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+/*
+ * Stub: the debug nodes are not needed to boot.
+ * TODO: port cape-debug.dtsi from the OPlus 5.10 vendor source.
+ */

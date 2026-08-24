@@ -277,6 +277,19 @@ parrot-dtb-$(CONFIG_ARCH_RAVELIN) += \
 parrot-overlays-dtb-$(CONFIG_ARCH_RAVELIN) += $(RAVELIN_BOARDS) $(RAVELIN_BASE_DTB) $(RAVELIN_4GB_BOARDS) $(RAVELIN_4GB_BASE_DTB)
 dtb-y += $(parrot-dtb-y)
 
+# Cape (SM8475): base DTBs for senna-22624; QC reference boards are not built.
+CAPE_BASE_DTB += cape.dtb cape-v2.dtb
+
+# The bootloader needs __symbols__ in the base to apply overlays. The automatic
+# -@ only covers bases combined via add-overlays in this directory, and the
+# senna overlay lives in ../oplus, so set it explicitly.
+DTC_FLAGS_cape += -@
+DTC_FLAGS_cape-v2 += -@
+
+cape-dtb-$(CONFIG_ARCH_CAPE) += $(CAPE_BASE_DTB)
+cape-overlays-dtb-$(CONFIG_ARCH_CAPE) += $(CAPE_BASE_DTB)
+dtb-y += $(cape-dtb-y)
+
 endif
 
 ifeq ($(CONFIG_ARCH_PINEAPPLE), y)
