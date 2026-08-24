@@ -933,7 +933,7 @@
 			dma-coherent;
 			cam-smmu-label = "ife", "sfe";
 			multiple-client-devices;
-			ife_iova_mem_map: iova-mem-map {
+			iova-mem-map {
 				/* IO region is approximately 4.0 GB */
 				iova-mem-region-io {
 					iova-region-name = "io";
@@ -954,7 +954,7 @@
 			cam-smmu-label = "jpeg";
 			qcom,iommu-dma-addr-pool = <0x100000 0xffe00000>;
 			dma-coherent;
-			jpeg_iova_mem_map: iova-mem-map {
+			iova-mem-map {
 				/* IO region is approximately 4.0 GB */
 				iova-mem-region-io {
 					iova-region-name = "io";
@@ -988,7 +988,7 @@
 			qcom,iommu-dma-addr-pool = <0x10c00000 0xee300000>;
 			iova-region-discard = <0xe0000000 0x800000>;
 			dma-coherent;
-			icp_iova_mem_map: iova-mem-map {
+			iova-mem-map {
 				iova-mem-region-shared {
 					/* Shared region is ~250MB long */
 					iova-region-name = "shared";
@@ -1039,7 +1039,7 @@
 			qcom,iommu-dma-addr-pool = <0x100000 0xffe00000>;
 			dma-coherent;
 			multiple-client-devices;
-			cpas_cdm_iova_mem_map: iova-mem-map {
+			iova-mem-map {
 				iova-mem-region-io {
 					/* IO region is approximately 4.0 GB */
 					iova-region-name = "io";
@@ -1111,9 +1111,26 @@
 		control-camnoc-axi-clk;
 		camnoc-bus-width = <32>;
 		camnoc-axi-clk-bw-margin-perc = <20>;
-		interconnect-names = "cam_ahb";
+		/*
+		 * 6.6 cam_icc_get_path() looks paths up by name on the CPAS
+		 * device, so all paths, including the AXI ports of the child
+		 * nodes, are listed here (as in the sm8750 (sun) 6.6 camera DT).
+		 * cam-icc-path-names also enables name-based lookup; without
+		 * it CPAS probe fails with -EINVAL.
+		 */
+		cam-icc-path-names = "cam_ahb";
+		interconnect-names = "cam_ahb",
+			"cam_hf_0",
+			"cam_sf_0",
+			"cam_sf_icp";
 		interconnects =<&gem_noc MASTER_APPSS_PROC
-			&config_noc SLAVE_CAMERA_CFG>;
+			&config_noc SLAVE_CAMERA_CFG>,
+			<&mmss_noc MASTER_CAMNOC_HF
+				&mc_virt SLAVE_EBI1>,
+			<&mmss_noc MASTER_CAMNOC_SF
+				&mc_virt SLAVE_EBI1>,
+			<&mmss_noc MASTER_CAMNOC_ICP
+				&mc_virt SLAVE_EBI1>;
 		rpmh-bcm-info = <12 0x4 0x800 0 4>;
 		cam-ahb-num-cases = <8>;
 		cam-ahb-bw-KBps =
@@ -1157,6 +1174,7 @@
 					ib-bw-voting-needed;
 					qcom,axi-port-mnoc {
 						interconnect-names = "cam_hf_0";
+						cam-icc-path-names = "cam_hf_0";
 						interconnects =
 						<&mmss_noc MASTER_CAMNOC_HF
 						&mc_virt SLAVE_EBI1>;
@@ -1170,6 +1188,7 @@
 					<CAM_CPAS_TRAFFIC_MERGE_SUM>;
 					qcom,axi-port-mnoc {
 						interconnect-names = "cam_sf_0";
+						cam-icc-path-names = "cam_sf_0";
 						interconnects =
 						<&mmss_noc MASTER_CAMNOC_SF
 						&mc_virt SLAVE_EBI1>;
@@ -1183,6 +1202,8 @@
 					<CAM_CPAS_TRAFFIC_MERGE_SUM>;
 					qcom,axi-port-mnoc {
 						interconnect-names =
+							"cam_sf_icp";
+						cam-icc-path-names =
 							"cam_sf_icp";
 						interconnects =
 						<&mmss_noc MASTER_CAMNOC_ICP

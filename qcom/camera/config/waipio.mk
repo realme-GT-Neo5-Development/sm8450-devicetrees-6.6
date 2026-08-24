@@ -8,6 +8,10 @@ dtbo-$(CONFIG_ARCH_DIWALI) += diwali-camera.dtbo
 dtbo-$(CONFIG_ARCH_DIWALI) += diwali-camera-sensor-idp.dtbo
 dtbo-$(CONFIG_ARCH_DIWALI) += diwali-camera-sensor-qrd.dtbo
 
+# senna-22624 camera overlay; its base cape-camera.dtbo must export labels (-@).
+dtbo-$(CONFIG_ARCH_CAPE) += oplus/senna-22624-camera-cape-overlay.dtbo
+DTC_FLAGS_cape-camera += -@
+
 dtbo-$(CONFIG_ARCH_CAPE) += cape-camera.dtbo
 dtbo-$(CONFIG_ARCH_CAPE) += cape-camera-sensor-mtp.dtbo \
 				cape-camera-sensor-cdp.dtbo \
