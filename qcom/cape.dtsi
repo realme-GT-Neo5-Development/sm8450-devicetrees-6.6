@@ -3382,3 +3382,4 @@
 //#endif /* OPLUS_ARCH_EXTENDS */
 
 #include "audio/waipio-audio.dtsi"
+#include "cape-walt.dtsi"
