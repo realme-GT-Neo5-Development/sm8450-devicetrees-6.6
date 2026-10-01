@@ -38,8 +38,10 @@ dtbo-$(CONFIG_ARCH_RAVELIN) += ravelin-audio.dtbo \
                  ravelin-audio-qrd.dtbo \
                  ravelin-audio-atp.dtbo
 
-# senna-22624 audio overlay; its base cape-audio.dtbo must export labels (-@).
+# senna-22624/22625 audio overlays; their base cape-audio.dtbo must export
+# labels (-@).
 dtbo-$(CONFIG_ARCH_CAPE) += oplus/senna-22624-audio-cape-overlay.dtbo
+dtbo-$(CONFIG_ARCH_CAPE) += oplus/senna-22625-audio-cape-overlay.dtbo
 DTC_FLAGS_cape-audio += -@
 
 dtbo-$(CONFIG_ARCH_CAPE) += cape-audio.dtbo \

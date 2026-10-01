@@ -1,0 +1,42 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Senna C (Realme GT Neo5 240W, project 22625, and Realme GT3, projects
+ * 0x226B2/0x226B3): single self-contained dtbo.img entry, as in the vendor
+ * dtbo.img, where the GT3 has no entry of its own. ABL selects it by
+ * qcom,msm-id / board-id / pmic-id and oplus,project-id (any value of the
+ * list) and applies it exactly once on top of the untouched cape.dtb /
+ * cape-v2.dtb. Applying a partial overlay a second time rewrites node phandles
+ * without updating references already in the base (e.g. the FSA4480 handle
+ * used by the sound card).
+ *
+ * Include order matters: later overlays reference labels created by earlier
+ * ones (&pmk8350_vadc, &pm8010*, &cam_cci0/1).
+ */
+
+/dts-v1/;
+/plugin/;
+
+/* Suppress /dts-v1/ and /plugin/ in the included .dts files. */
+#define SENNA_FULL_OVERLAY 1
+
+#include "../display/cape-sde.dts"
+#include "senna-22625-cape-overlay.dts"
+#include "../display/senna-22625-display-cape-overlay.dts"
+#include "../qcom/audio/oplus/senna-22625-audio-cape-overlay.dts"
+#include "../qcom/camera/cape-camera.dts"
+#include "../qcom/camera/oplus/senna-22625-camera-cape-overlay.dts"
+/* Video (Venus); without it msm_video never probes. */
+#include "../qcom/video/waipio-vidc.dts"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Cape MTP, Senna C";
+
+	/*
+	 * ABL selection IDs, as in the vendor senna-22625 dtbo:
+	 * msm-id 0x212 = SM8475 (530), 0x213 = 531, 0x21c = 540;
+	 * board-id 0x10008 = MTP, variant 8.
+	 */
+	qcom,msm-id = <0x212 0x10000>, <0x213 0x10000>, <0x21c 0x10000>;
+	qcom,board-id = <0x10008 0x00>;
+	qcom,pmic-id = <0x2f 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x41 0x41>;
+};
