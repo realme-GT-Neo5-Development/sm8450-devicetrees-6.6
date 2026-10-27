@@ -269,3 +269,19 @@
 	};
 	//#endif /* OPLUS_FEATRUE_DUAL_SIM_DETECT */
 };
+
+/*
+ * PMR735B (SID 5) and the second PM8010 (SID 9) do not answer on senna:
+ * every SPMI read of their revision registers ends in "transaction failed",
+ * so the pmic probes fail with -EIO and the arbiter warns at each boot. The
+ * PM8010J LDOs above are RPMh resources and do not depend on these nodes.
+ */
+&spmi_bus {
+	qcom,pmr735b@5 {
+		status = "disabled";
+	};
+
+	qcom,pm8010@9 {
+		status = "disabled";
+	};
+};
