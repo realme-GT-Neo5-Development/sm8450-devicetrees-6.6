@@ -297,6 +297,13 @@
 	};
 
 	soc: soc { };
+
+	hypervisor {
+		gh_watchdog: qcom,gh-watchdog {
+			compatible = "qcom,gh-watchdog";
+			interrupts = <0x00 0x00 0x01>;
+		};
+	};
 };
 
 &firmware {
