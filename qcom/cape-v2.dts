@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ */
+
+/dts-v1/;
+
+#include "cape-v2.dtsi"
+
+/ {
+	model = "Qualcomm Technologies, Inc. Cape LTE Only SoC";
+	compatible = "qcom,cape-v2";
+	qcom,board-id = <0 0>;
+};
+

@@ -1,5 +1,8 @@
+/* Header is skipped when included from senna-22624-cape-full-overlay.dts. */
+#ifndef SENNA_FULL_OVERLAY
 /dts-v1/;
 /plugin/;
+#endif
 
 #include "cape-audio-mtp.dtsi"
  / {
