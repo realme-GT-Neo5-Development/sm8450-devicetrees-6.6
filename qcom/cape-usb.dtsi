@@ -71,6 +71,8 @@
 			usb-phy = <&eusb2_phy0>, <&usb_qmp_dp_phy>;
 			snps,disable-clk-gating;
 			snps,has-lpm-erratum;
+			snps,usb2-lpm-disable;
+			snps,usb2-gadget-lpm-disable;
 			snps,hird-threshold = /bits/ 8 <0x0>;
 			snps,is-utmi-l1-suspend;
 			snps,dis-u1-entry-quirk;

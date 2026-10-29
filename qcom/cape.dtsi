@@ -1467,6 +1467,7 @@
 		compatible = "qcom,cpucp-log";
 		reg = <0x17d09c00 0x200>, <0x17d09e00 0x200>;
 		mboxes = <&cpucp 1>;
+		qcom,log-type = <0>;
 	};
 
 	ipcc_mproc: qcom,ipcc@ed18000 {
@@ -2026,6 +2027,7 @@
 
 		iommus = <&apps_smmu 0xE0 0x0>;
 		qcom,iommu-dma = "fastmap";
+		qcom,iommu-faults = "non-fatal";
 		dma-coherent;
 
 		/* Multilevel clock scaling support for higher ufs clock freq */
