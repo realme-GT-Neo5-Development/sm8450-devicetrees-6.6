@@ -81,6 +81,24 @@
 	};
 };
 
+/*
+ * The battery charger node belongs to the OPlus charger (oplus_chg), which
+ * binds "qcom,battery-charger". The Qualcomm driver binds
+ * "qcom,waipio-battery-charger" and must stay passive on senna.
+ */
+&battery_charger {
+	compatible = "qcom,battery-charger";
+};
+
+/*
+ * senna has no accessible debug UART. Left enabled, the built-in
+ * qcom_geni_serial binds it and stdout-path turns it into the kernel
+ * console, so every printk would be written out at 115200 baud.
+ */
+&qupv3_se7_2uart {
+	status = "disabled";
+};
+
 /* #ifdef OPLUS_ARCH_EXTENDS */
 &fsa4480 {
 	status = "disabled";
